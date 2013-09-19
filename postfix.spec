@@ -28,7 +28,7 @@
 
 Name: postfix
 Summary: Postfix Mail Transport Agent
-Version: 2.9.1
+Version: 2.10.2
 Release: 1%{?dist}
 Epoch: 2
 Group: System Environment/Daemons
@@ -110,7 +110,7 @@ server traffic volumes, rejected and bounced email, and server
 warnings, errors and panics.
 
 qshape prints Postfix queue domain and age distribution.
-
+ 
 %prep
 %setup -q
 # Apply obligatory patches
@@ -295,6 +295,7 @@ done
 
 # upgrade configuration files if necessary
 %{_sbindir}/postfix set-permissions upgrade-configuration \
+	config_directory=%{postfix_config_dir} \
 	daemon_directory=%{postfix_daemon_dir} \
 	command_directory=%{postfix_command_dir} \
 	mail_owner=%{postfix_user} \
@@ -419,6 +420,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0755, root, root) %{postfix_command_dir}/postlog
 %attr(0755, root, root) %{postfix_command_dir}/postmap
 %attr(0755, root, root) %{postfix_command_dir}/postmulti
+%attr(0755, root, root) %{postfix_daemon_dir}/postscreen
 %attr(2755, root, %{maildrop_group}) %{postfix_command_dir}/postqueue
 %attr(0755, root, root) %{postfix_command_dir}/postsuper
 %attr(0644, root, root) %config(noreplace) %{postfix_config_dir}/access
@@ -441,7 +443,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0755, root, root) %{postfix_daemon_dir}/postfix-script
 %attr(0755, root, root) %{postfix_daemon_dir}/postfix-wrapper
 %attr(0755, root, root) %{postfix_daemon_dir}/postmulti-script
-%attr(0755, root, root) %{postfix_daemon_dir}/postscreen
 %attr(0755, root, root) %{postfix_daemon_dir}/proxymap
 %attr(0755, root, root) %{_bindir}/mailq.postfix
 %attr(0755, root, root) %{_bindir}/newaliases.postfix
@@ -475,53 +476,23 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Wed Feb 1 2012 Milo Oostergo <milo@oostergo.net. - 2:2.8.8-1
-- Update to 2.8.8
-
-* Mon Nov  7 2011 Jaroslav Škarvada <jskarvad@redhat.com> - 2:2.8.7-1
-- Update to 2.8.7
-  Resolves: rhbz#751622
-
-* Mon Oct 24 2011 Jaroslav Škarvada <jskarvad@redhat.com> - 2:2.8.6-1
-- Update to 2.8.6
+* Mon Oct 24 2011 Jaroslav Škarvada <jskarvad@redhat.com> - 2:2.10.2-1
+- Update to 2.10.2
   Resolves: rhbz#748389
 
-* Mon Sep 12 2011 Jaroslav Škarvada <jskarvad@redhat.com> - 2:2.8.5-1
-- Update to 2.8.5
-  Resolves: rhbz#735543
+* Mon Sep 12 2011 Jaroslav Škarvada <jskarvad@redhat.com> - 2:2.7.6-1
+- Update to 2.7.6
 
-* Tue Aug 30 2011 Jaroslav Škarvada <jskarvad@redhat.com> - 2:2.8.4-2
-- Rebuilt with libdb-5.1
-  Resolves: rhbz#734084
+* Mon Jul 11 2011 Jaroslav Škarvada <jskarvad@redhat.com> - 2:2.7.5-1
+- update to 2.7.5
 
-* Thu Jul 07 2011 Jaroslav Škarvada <jskarvad@redhat.com> - 2:2.8.4-1
-- update to 2.8.4
-
-* Mon May 09 2011 Jaroslav Škarvada <jskarvad@redhat.com> - 2:2.8.3-1
-- update to 2.8.3
+* Mon May 09 2011 Jaroslav Škarvada <jskarvad@redhat.com> - 2:2.7.4-1
+- update to 2.7.4
 - fix CVE-2011-1720
 
-* Wed Mar 23 2011 Dan Horák <dan@danny.cz> - 2:2.8.2-2
-- rebuilt for mysql 5.5.10 (soname bump in libmysqlclient)
-
-* Tue Mar 22 2011 Jaroslav Škarvada <jskarvad@redhat.com> - 2:2.8.2-1
-- update to 2.8.2
-
-* Wed Feb 23 2011 Miroslav Lichvar <mlichvar@redhat.com> 2:2.8.1-1
-- update to 2.8.1
-
-* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:2.8.0-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
-
-* Mon Feb 07 2011 Miroslav Lichvar <mlichvar@redhat.com> 2:2.8.0-2
-- don't set config_directory when upgrading configuration (#675654)
-
-* Wed Jan 26 2011 Miroslav Lichvar <mlichvar@redhat.com> 2:2.8.0-1
-- update to 2.8.0
-
-* Fri Nov 26 2010 Miroslav Lichvar <mlichvar@redhat.com> 2:2.7.2-1
-- update to 2.7.2
-- change LSB init header to provide $mail-transport-agent (#627411)
+* Sun Mar 13 2011 Jaroslav Škarvada <jskarvad@redhat.com> - 2:2.7.3-1
+- update to 2.7.3
+- fix CVE-2011-0411 (#683168)
 
 * Thu Jun 10 2010 Miroslav Lichvar <mlichvar@redhat.com> 2:2.7.1-1
 - update to 2.7.1
